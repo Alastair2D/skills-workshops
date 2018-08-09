@@ -4,6 +4,25 @@ require 'feedback'
 
 describe Student do
   subject(:student) { Student.new }
+  let(:student) { Student.new } #alternative
+  let(:feedback)  { Feedback.new }
+  let(:mockFeedback) { double :feedback, :happiness => 4 }
+  let(:mockFeedback) { double :feedback, happiness: 4 } #newer option 
+  let(:anotherMockFeedback) { double :feedback, :happiness => 7 } 
+  let(:mockTest) { double :test, pretty_date_taken: Date.today.to_s, score: 1 }
+  let(:mockTest2) { double :test, pretty_date_taken: Date.today.to_s, score: 2 }
+
+  #this is what doubles effectively do 
+  #step1. create a mock class
+  #step2. give the mock class a happiness method.  
+  #step3.  stub the answer to e.g. 4 as this is what the test expects
+# class mockFeedback
+#   def happiness
+#     4
+#   end
+# end
+# class mockTest
+# end
 
   describe '#full_name' do
     it 'returns the student first name and last name' do
@@ -19,7 +38,7 @@ describe Student do
 
   describe '#happiness' do
     it 'returns the average happiness reported' do
-      feedback_1 = Feedback.new(4, Date.today)
+      feedback_1 = mockFeedback
       feedback_2 = Feedback.new(4, Date.today)
       student = Student.new(feedbacks: [feedback_1, feedback_2])
 
@@ -33,11 +52,11 @@ describe Student do
 
   describe '#test_scores' do
     it 'returns all test scores' do
-      test_1 = Test.new(Date.today, [Answer.new(5, 5)])
-      test_2 = Test.new(Date.today, [Answer.new(6, 6)])
-      student = Student.new(tests: [test_1, test_2])
-
-      expect(student.test_scores).to eq({ "#{ Date.today.to_s }" => [1, 1] })
+      # test1 = mockTest.new
+      # test2 = mockTest.new
+      # student = Student.new(tests: [test_1, test_2])
+      student = Student.new(tests: [mockTest, mockTest2])
+      expect(student.test_scores).to eq({ "#{ Date.today.to_s }" => [1, 2] })
     end
 
     it 'defaults to being empty' do

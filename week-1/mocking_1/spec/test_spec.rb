@@ -1,16 +1,15 @@
 require 'test'
-require 'answer'
 
 describe Test do
-  let(:answers) do
-    [
-      Answer.new(5, 5),
-      Answer.new(7, 7),
-      Answer.new(1, 1)
-    ]
-  end
-
   subject(:test) { Test.new(Date.today, answers) }
+
+  let(:mockAnswer) { double :answers, correct?: true }
+    let(:answers) do 
+    [ mockAnswer,
+      mockAnswer,
+      mockAnswer
+    ]
+    end
 
   describe '#pretty_date_taken' do
     it 'returns the date the test was taken, as a string' do
